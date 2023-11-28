@@ -16,7 +16,7 @@ def encrypt():
             for line in encryptFile:
                 encrypt = []
                 for item in encrypt:
-                    code = str(encrypt.index(item))
+                    code = str(ord(item)-encrypt.index(item))
                     encrypt.append(code)
                 e = ".".join(encrypt)
                 outputFile.write(e+"\n")
@@ -32,25 +32,24 @@ def decrypt():
     fileD = input("Enter file to decrypt:")
     fileOD = input("Enter output file:")
     #open files
-    outputFile = open(fileOD,"w")
-    decryptFile = open(fileD,"r")
-    decrypt = []
-    e = ""
-    #for loop to encrypt and add to output file
-    for line in decryptFile:
-        decrypt= line.split(".")
-        for item in decrypt:
-            code = chr(int(item)+decrypt.index(item))
-            e += code
-        outputFile.write(e)
-        e = ""
-        decrypt.clear()
-    print("Decrypted passwords wrote to", fileOD)
+    try:
+        with open(fileD, "r") as decryptFile, open(fileOD, "w") as outputFile:
+            #for loop to decrypt and add to output file
+            for line in decryptFile:
+                decrypt = line.split(".")
+                for item in decrypt:
+                    code = chr(int(item)+decrypt.index(item))
+                    outputFile.write(code)
+        print("Decrypted passwords wrote to", fileOD)
+    except FileNotFoundError:
+        print("File not found, Try again")
+    except Exception as e:
+        print("Error, try again")
 
 
 #Welcome message
-print("Welcome to the password encryption program")
-choice = input("Options:\n< e for encryption >\n< d for decryption >\n< q to exit >\n")
+print("Welcome to the password encryption program\nUse this program to encrypt and decrypt your text files!")
+choice = input("Options:\n< e for encryption >\n< d for decryption >\n< q to exit >\n").lower()
 
 #While loop for choice
 while(choice!="q"):
