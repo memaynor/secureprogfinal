@@ -9,22 +9,22 @@ Description: Project for Mod 6
 def encrypt():
     #get file names
     fileE = input("Enter file to encrypt:")
-    fileOE = input("Enter output file:")
-    #open files
-    outputFile = open(fileOE,"w")
-    encryptFile = open(fileE,"r")
-    encrypt = []
-    e = ""
-    #for loop to encrypt and add to output file
-    for line in encryptFile:
-        encrypt.extend(line)
-        for item in encrypt:
-            code = str(ord(item)-encrypt.index(item))
-            e += code+"."   
-        outputFile.write(e+"\n")
-        e = ""
-        encrypt.clear()
-    print("Encrypted passwords wrote to", fileOE)
+    fileOE = input("Enter output file (Will create file if not created):")
+    try:
+        with open(fileE, "r") as encryptFile, open(fileE, "w") as outputFile:
+            #for loop to encrypt and add to output file
+            for line in encryptFile:
+                encrypt = []
+                for item in encrypt:
+                    code = str(encrypt.index(item))
+                    encrypt.append(code)
+                e = ".".join(encrypt)
+                outputFile.write(e+"\n")
+        print("Encrypted passwords wrote to", fileOE)
+    except FileNotFoundError: 
+        print("File not found, Try again.")
+    except Exception as e:
+        print("Error, try again")
     
 #Function used to decrypt a file
 def decrypt():
@@ -68,7 +68,3 @@ while(choice!="q"):
 
 #final message
 print("Thank you for using our program!")
-
-#close files
-fileOE.close()
-fileOD.close()
