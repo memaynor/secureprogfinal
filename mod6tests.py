@@ -1,24 +1,20 @@
 import mod6project
 import unittest
-from io import StringIO
-import sys
+from unittest.mock import patch
 
 class Tests(unittest.TestCase):
-    def setUp(self):
-        self.originalOut = sys.stdout
-        sys.stdout = StringIO()
-
-    def tearDown(self):
-        sys.stdout = self.originalOut
 
     def testEncryptWork(self):
-        input_string = "testing"
-        expected_result = "116.100.113.116.101.105.97"
+        files = ["textfile.txt", "encrypted.txt"]
+        expectedResult = "116.100.113.116.101.105.97"
 
-        with unittest.mock.patch('builtins.input', side_effect=[input_string]):
+        with patch('builtins.input', side_effect=files):
             mod6project.encrypt()
-            result = sys.stdout.getvalue().strip()
 
-        self.assertEqual(result, expected_result)
+        with open("encrypted.txt", "r") as output:
+            result = output.read().strip()
+
+        self.assertEqual(result, expectedResult)
+
 if __name__ == "__main__":
     unittest.main()
