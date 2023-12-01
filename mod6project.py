@@ -31,7 +31,7 @@ def encrypt():
 def decrypt():
     #get file names
     fileD = input("Enter file to decrypt:")
-    fileOD = input("Enter output file:")
+    fileOD = input("Enter output file (Will create file if not created):")
     #open files
     try:
         with open(fileD, "r") as decryptFile:
@@ -39,12 +39,12 @@ def decrypt():
                 #for loop to decrypt and add to output file
                 for line in decryptFile:
                     decrypt = line.split(".")
-                    for item in line:
+                    for item in decrypt:
                         code = chr(int(item)+decrypt.index(item))
                         outputFile.write(code)
             print("Decrypted passwords wrote to", fileOD)
     except FileNotFoundError:
-        print("Input file not found, try again")
+        print("Input file not found, try again.")
     except ValueError:
         print("File is not encrypted, try again")
     except Exception as e:
